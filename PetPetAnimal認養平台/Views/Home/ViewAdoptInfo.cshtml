@@ -1,0 +1,341 @@
+﻿@model PetPetAnimal認養平台.Models.MemberViewAdoptDetailViewModel
+
+
+@using (Html.BeginForm("ModifyAdoptInfo", "Home", FormMethod.Post, new { @id = "ModifyAdoptInfo", enctype = "multipart/form-data" }))
+{
+    <div class="content-body">
+        <div class="col-xs-12">
+            <br />
+            <h2 class="text-center" style="font-family:'Microsoft JhengHei'">
+                <i class="fa fa-fw fa-eye"></i>
+                瀏覽認養資料
+            </h2>
+            <br />@Html.HiddenFor(x=>x.AnimalID)
+            <div class="text-center block-padding " >
+                <button type="submit" class="btn btn-warning" >編輯&nbsp;<i class="fa fa-pencil-square-o"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-default" onclick="window.location.href='@Url.Action("Index","Home")' ">返回&nbsp;<i class=" fa fa-chevron-circle-left"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-danger" onclick="ConfirmDelete()">刪除&nbsp;<i class=" fa fa-trash"></i></button>
+            </div>
+            <div id="basic" class="add-block">
+                <div class="panel panel-dark-purple ">
+                    <div class="panel-heading">動物基本資料</div>
+                    <div class="panel-body ">
+                        <div class="form-row" style="padding-left:30px">
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label class="">名子:</label>
+                                    <div class="">@Html.TextBoxFor(x => x.Name, new { @class = "form-control", @disabled = "disabled" })</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label class="">動物種類:</label>
+                                    <div class="">@Html.TextBoxFor(x => x.Type, new { @class = "form-control", @disabled = "disabled" })</div>
+                                </div>
+                            </div>
+                            @{List<SelectListItem> GenderList = new List<SelectListItem>();
+
+                            GenderList.Add(new SelectListItem() { Text = "母", Value = "1" });
+                            GenderList.Add(new SelectListItem() { Text = "公", Value = "2" });
+                            //GenderList.Add(new SelectListItem() { Text = "未知", Value = "0" });
+                            }
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label class="">性別:</label>
+                                    <div class="">@Html.DropDownListFor(x => x.Gender, GenderList, new { @class = "form-control", @disabled = "disabled" })</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label class="">地點:</label>
+                                    <div class="">@Html.TextBoxFor(x => x.CityLocation, new { @class = "form-control", @disabled = "disabled" })</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label class="">年齡:</label>
+                                    <div class="form-inline">
+
+                                        @Html.TextBoxFor(x => x.AgeAndUnit, new { @class = "form-control", @disabled = "disabled" })
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="cover" class="add-block">
+                <div class="panel panel-dark-blue">
+                    <div class="panel-heading ">認養封面設定</div>
+                    <div class="panel-body">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class="">封面標題:</label>
+                                <div class="">@Html.TextBoxFor(x => x.CoverHeader, new { @class = "form-control", style = "max-width:100%", @disabled = "disabled" })</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class="">封面敘述:</label>
+                                <div class="">@Html.TextAreaFor(x => x.CoverIntro, new { @class = "form-control", style = "max-width:100%;overflow:auto", @disabled = "disabled" })</div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left:0px">
+                                <div class="form-group">
+                                    <label class="">封面照片上傳: </label>
+                                    <div class="form-inline">
+                                        @if (Model.Base64Photo != "")
+                                        {
+                                            <img src="data:image/@Model.PhotoExtension;base64,@Model.Base64Photo" class="img-responsive img-rounded" style="width:80%" />
+                                        }
+                                        else
+                                        {
+                                            <img src="http://placehold.it/700x400" class="img-responsive img-rounded" style="width:80%" />
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="detail" class="add-block">
+                    <div class="panel panel-dark-warning">
+                        <div class="panel-heading">詳細資料</div>
+                        <div class="panel-body ">
+                            <div class="form-row" style="padding-left:30px">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="">個性特質:</label>
+                                        <div class="">
+                                            @Html.TextBoxFor(x => x.Personality, new { @class = "form-control", style = "max-width:100%" ,@disabled="disabled"})
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group ">
+                                        <label class="">體重:</label>
+                                        <div class="form-inline">@Html.TextBoxFor(x => x.Weight, new { @class = "form-control", type = "number", min = "0",@disabled="disabled" }) &nbsp;kg</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="">體長:</label>
+                                        <div class="form-inline">@Html.TextBoxFor(x => x.Length, new { @class = "form-control", type = "number", min = "1", @disabled = "disabled" }) &nbsp; cm</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="">高度:</label>
+                                        <div class="form-inline">@Html.TextBoxFor(x => x.Height, new { @class = "form-control", type = "number", min = "1", @disabled = "disabled" }) &nbsp; cm</div>
+                                    </div>
+                                </div>
+                                @{List<SelectListItem> IsSpayList = new List<SelectListItem>();
+                                IsSpayList.Add(new SelectListItem() { Text = "有", Value = "1" });
+                                IsSpayList.Add(new SelectListItem() { Text = "無", Value = "0" });
+                                }
+                                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+
+                                    <div class="form-group">
+                                        <label class="">有無結紮:</label>
+                                        <div class="">@Html.DropDownListFor(x => x.IsSpay, IsSpayList, new { @class = "form-control", @disabled = "disabled" }) </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                    <div class="form-group">
+                                        <label class="">簡介:</label>
+                                        <div class="">@Html.TextAreaFor(x => x.Introduction, new { @class = "form-control", style = "max-width:100%", @disabled = "disabled" }) </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                    <div class="form-group">
+                                        <label class="">特殊照顧需求:</label>
+                                        <div class="">@Html.TextAreaFor(x => x.SpecialNeed, new { @class = "form-control", style = "max-width:100%", @disabled = "disabled" }) </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="contact" class="add-block">
+                    <div class="panel panel-dark-danger">
+
+                        <div class="panel-heading">聯絡資料</div>
+                        <div class="panel-body ">
+                            <div class="form-row" style="padding-left:30px">
+                                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="">聯絡人姓名:</label>
+                                        <div class="">@Html.TextBoxFor(x => x.Contacter, new { @class = "form-control", @disabled = "disabled" })</div>
+
+                                    </div>
+
+
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+
+                                    <div class="form-group">
+                                        <label class="">聯絡電話:</label>
+                                        <div class="">@Html.TextBoxFor(x => x.ContacterPhone, new { @class = "form-control", @disabled = "disabled" })</div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+
+                                    <div class="form-group">
+                                        <label class="">Email:</label>
+                                        <div class="">@Html.TextBoxFor(x => x.ContacterEmail, new { @class = "form-control", @disabled = "disabled" })</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+
+
+                <div id="pictures" class="add-block">
+                    <div class="panel panel-info-alt">
+
+                        <div class="panel-heading">認養開放設定</div>
+                        <div class="panel-body">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label class="">關閉/開放: </label>&nbsp;
+                                   
+                                        @if (Model.IsOpen)
+                                        {
+                                            <span class="badge badge-success">開放</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-secondary" >關閉</span>
+                                        }
+                         
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+    </div>
+}
+@section scripts{
+    <script>
+       $(function () {
+           $('#MyAnimals').addClass("active");
+       })
+
+       function ConfirmDelete() {
+           swal({
+               title: '您要永久刪除這筆認養資料嗎?',
+               text: "刪除後將無法復原!",
+               type: 'warning',
+               showCancelButton: true,
+               showLoaderOnConfirm:true,
+               confirmButtonColor: '#d33',     
+               confirmButtonText: '刪除',
+               cancelButtonText: '取消',
+               confirmButtonClass: 'btn btn-danger',
+               cancelButtonClass: 'btn btn-default',
+           }).then((result) => {
+               if (result.value) {
+
+               $.ajax({
+               url: '@Url.Action("DeleteAdoptInfo", "Home")',
+           data: { 'AnimalID': $('#AnimalID').val() },
+           method: 'Post',
+           dataType: 'json',
+           success: function (result) {
+               debugger;
+               if (result == "刪除成功!")
+                 //  swal("刪除成功!", "此筆認養資料已刪除", "success");
+               swal({
+                   title: '刪除成功!',
+                   text: "此筆認養資料已刪除!",
+                   type: 'success',
+                   showCancelButton: false,
+                   confirmButtonColor: '#3085d6',
+                   confirmButtonText: '返回首頁'
+               }).then((result) => {
+                   if (result.value) {
+                   window.location.href='@Url.Action("Index","Home")'
+           }
+       })
+               else
+               {
+                   swal("刪除失敗!", result, "danger");
+               }
+           },
+           error: function ()
+           {
+               swal("刪除失敗!", "刪除發生問題", "danger");
+           }
+       })
+       
+           // result.dismiss can be 'cancel', 'overlay',
+           // 'close', and 'timer'
+       } else if (result.dismiss === 'cancel') {
+           swal(
+             '已取消',
+             '刪除動作已取消',
+             'info'
+           )
+       }
+       })
+           @*swal({
+               title: "您要永久刪除這筆認養資料嗎",
+               text: "刪除後將無法復原",
+               type: "warning",
+               dismiss: 'cancel',
+               showCancelButton: true,              
+               showLoaderOnConfirm: true,
+           confirmButtonClass: "btn-danger btn",
+           confirmButtonText: "刪除",
+           cancelButtonText: "取消",
+           confirmButtonColor: "#d33"
+           }, function (isConfirm) {
+               debugger;
+               if (isConfirm) {
+
+                   $.ajax({
+                       url: '@Url.Action("DeleteAdoptInfo", "Home")',
+                       data: { 'AnimalID': $('#AnimalID').val() },
+                       method: 'Post',
+                       dataType: 'json',
+                       success: function (result) {
+                           debugger;
+                           if (result.Data == "刪除成功!")
+                               swal("刪除成功!", "此筆認養資料已刪除", "success");
+                           else
+                           {
+                               swal("刪除失敗!", result.Data, "danger");
+                           }
+                       },
+                       error: function ()
+                       {
+                           swal("刪除失敗!", "刪除發生問題", "danger");
+                       }
+                   })
+                   
+               } else {
+                   swal("刪除動作已取消", "info");
+               }
+
+
+       
+           });*@
+       }
+    </script>
+}
+

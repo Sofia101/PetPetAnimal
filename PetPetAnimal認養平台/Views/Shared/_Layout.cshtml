@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Pet Animal 認養平台</title>
+    @Styles.Render("~/Content/css")
+
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">Pet Pet Animal 認養平台</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item" id="MyAnimals">
+                            <a class="nav-link" href="@Url.Action("Index","Home")">
+                                我的待認養動物
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="AddAnimals">
+                            <a class="nav-link" href="@Url.Action("AddAdoptInfo","Home")">新增認養資料</a>
+                        @*</li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">更新認養資料</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">刪除認養資料</a>
+                        </li>*@
+                    </ul>
+                </div>
+            </div>
+        </nav>
+       
+        @RenderBody()
+        <!-- Footer -->
+        <footer class="py-5 bg-dark">
+            <div class="container">
+                <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+            </div>
+            <!-- /.container -->
+        </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

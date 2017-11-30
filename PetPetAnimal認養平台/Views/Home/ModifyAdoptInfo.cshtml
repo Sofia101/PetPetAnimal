@@ -1,0 +1,376 @@
+﻿@model PetPetAnimal認養平台.Models.ModifyAdoptInfoViewModel
+
+
+@using (Html.BeginForm("ModifyAdoptInfoSend", "Home", FormMethod.Post, new { @id = "ModifyAdoptInfoSend", enctype = "multipart/form-data" }))
+{
+    <div class="content-body">
+        <div class="col-xs-12">
+            <br />
+            <h2 class="text-center" style="font-family:'Microsoft JhengHei'">
+                <i class="fa fa-fw fa-pencil"></i>
+                修改認養資料
+            </h2>
+            <br />@Html.HiddenFor(x => x.AnimalID)
+            <div id="basic" class="add-block">
+                <div class="panel panel-dark-purple ">
+                    <div class="panel-heading">動物基本資料</div>
+                    <div class="panel-body ">
+                        <div class="form-row" style="padding-left:30px">
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label class=""><span class="required">*</span>名子:</label>
+                                    <div class="">@Html.TextBoxFor(x => x.Name, new { @class = "form-control" })</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label class="">動物種類:</label>
+                                    <div class="">@Html.TextBoxFor(x => x.Type, new { @class = "form-control" })</div>
+                                </div>
+                            </div>
+                            @{List<SelectListItem> GenderList = new List<SelectListItem>();
+
+                            GenderList.Add(new SelectListItem() { Text = "母", Value = "1" });
+                            GenderList.Add(new SelectListItem() { Text = "公", Value = "2" });
+
+                            }
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label class="">性別:</label>
+                                    <div class="">@Html.DropDownListFor(x => x.Gender, GenderList, new { @class = "form-control" })</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label class=""><span class="required">*</span>地點:</label>
+                                    <div class="">@Html.TextBoxFor(x => x.CityLocation, new { @class = "form-control" })</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <label class="">年齡:</label>
+                                    <div class="form-inline">
+
+                                        @Html.TextBoxFor(x => x.Age, new { @class = "form-control", type = "number", min = "1" })
+                                        &nbsp;     &nbsp;
+                                        <button class="btn btn-default btn-age" type="button" id="year">歲</button>
+                                        <button class="btn btn-default btn-age" type="button" id="month">月</button>
+                                        <button class="btn btn-default btn-age" type="button" id="week">周</button>
+                                        <button class="btn btn-default btn-age" type="button" id="day">日</button>
+                                        &nbsp;  (點選可重新按鈕選擇年齡單位)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="cover" class="add-block">
+                <div class="panel panel-dark-blue">
+                    <div class="panel-heading ">認養封面設定</div>
+                    <div class="panel-body">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class=""><span class="required">*</span>封面標題:</label>
+                                <div class="">@Html.TextBoxFor(x => x.CoverHeader, new { @class = "form-control", style = "max-width:100%" })</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class=""><span class="required">*</span>封面敘述:</label>
+                                <div class="">@Html.TextAreaFor(x => x.CoverIntro, new { @class = "form-control", style = "max-width:100%;overflow:auto" })</div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left:0px">
+                                <div class="form-group">
+                                    <label class="">目前封面照片: </label>
+                                    <div class="form-inline">
+                                        @if (Model.Base64Photo != "")
+                                        {
+                                            <img src="data:image/@Model.PhotoExtension;base64,@Model.Base64Photo" class="img-responsive img-rounded" style="width:80%" />
+                                        }
+                                        else
+                                        {
+                                            <img src="http://placehold.it/700x400" class="img-responsive img-rounded" style="width:80%" />
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left:0px">
+                                <div class="form-group">
+                                    <label class="">更換封面照片，照片上傳: </label>
+                                    <div class="form-inline"><input type="file" class="form-control" value="上傳封面代表照片" id="CoverPhoto" name="CoverPhoto" accept=".jpg, .jpeg, .png,.gif" />&nbsp;&nbsp;(一張照片，jpg, jpeg, png, gif以上格式)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="detail" class="add-block">
+                    <div class="panel panel-dark-warning">
+                        <div class="panel-heading">詳細資料</div>
+                        <div class="panel-body ">
+                            <div class="form-row" style="padding-left:30px">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="">個性特質:</label>
+                                        <div class="">
+                                            @Html.TextBoxFor(x => x.Personality, new { @class = "form-control", style = "max-width:100%" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group ">
+                                        <label class="">體重:</label>
+                                        <div class="form-inline">@Html.TextBoxFor(x => x.Weight, new { @class = "form-control", type = "number", min = "0" }) &nbsp;kg</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="">體長:</label>
+                                        <div class="form-inline">@Html.TextBoxFor(x => x.Length, new { @class = "form-control", type = "number", min = "1" }) &nbsp; cm</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="">高度:</label>
+                                        <div class="form-inline">@Html.TextBoxFor(x => x.Height, new { @class = "form-control", type = "number", min = "1" }) &nbsp; cm</div>
+                                    </div>
+                                </div>
+                                @{List<SelectListItem> IsSpayList = new List<SelectListItem>();
+                                IsSpayList.Add(new SelectListItem() { Text = "有", Value = "1" });
+                                IsSpayList.Add(new SelectListItem() { Text = "無", Value = "0" });
+                                }
+                                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+
+                                    <div class="form-group">
+                                        <label class="">有無結紮:</label>
+                                        <div class="">@Html.DropDownListFor(x => x.IsSpay, IsSpayList, new { @class = "form-control" }) </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                    <div class="form-group">
+                                        <label class="">簡介:</label>
+                                        <div class="">@Html.TextAreaFor(x => x.Introduction, new { @class = "form-control", style = "max-width:100%" }) </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                    <div class="form-group">
+                                        <label class="">特殊照顧需求:</label>
+                                        <div class="">@Html.TextAreaFor(x => x.SpecialNeed, new { @class = "form-control", style = "max-width:100%" }) </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="contact" class="add-block">
+                    <div class="panel panel-dark-danger">
+
+                        <div class="panel-heading">聯絡資料</div>
+                        <div class="panel-body ">
+                            <div class="form-row" style="padding-left:30px">
+                                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class=""><span class="required">*</span>聯絡人姓名:</label>
+                                        <div class="">@Html.TextBoxFor(x => x.Contacter, new { @class = "form-control" })</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+
+                                    <div class="form-group">
+                                        <label class=""><span class="required">*</span>聯絡電話:</label>
+                                        <div class="">@Html.TextBoxFor(x => x.ContacterPhone, new { @class = "form-control" })</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class=""><span class="required">*</span>Email:</label>
+                                        <div class="">@Html.TextBoxFor(x => x.ContacterEmail, new { @class = "form-control" })</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                @*<div id="pictures" class="add-block">
+                        <div class="panel panel-dark-purple">
+
+                            <div class="panel-heading">照片集</div>
+                            <div class="panel-body">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="">相關照片上傳: </label>
+                                        <div class="form-inline"><input type="file" class="form-control" value="上傳相關照片集" id="Pictures" name="Pictures" accept=".jpg, .jpeg, .png,.gif" multiple />&nbsp;&nbsp;(可傳多張照片，jpg, jpeg, png, gif以上格式)</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>*@
+
+
+                <div id="pictures" class="add-block">
+                    <div class="panel panel-info-alt">
+
+                        <div class="panel-heading">認養開放設定</div>
+                        <div class="panel-body">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label class="">關閉/開放: </label>
+                                    <div class="">
+                                        <label class="switch">
+                                            <input type="checkbox" id="IsOpen" class="form-control">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                @Html.Hidden("AgeAndUnit")
+                @Html.Hidden("UpdateIsOpen")
+
+
+
+
+                <div class="text-center block-padding">
+                    <button type="button" class="btn btn-warning" onclick="AddInfo()">修改&nbsp;<i class="fa fa-plus"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-danger" onclick="window.location.href='@Url.Action("Index","Home")'">取消&nbsp;<i class="fa fa-times"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section scripts{
+    <script>
+        var ageUnit = "";
+        $(function () {
+
+
+            var message= '@ViewBag.Message';
+            if(message!=null&&message!="")
+            {
+                swal('@ViewBag.Message');
+            }
+
+
+
+        })
+
+
+        $(function () {
+
+            $('.btn-age').on("click", function () {
+                var IsClicked = $('.btn-age').hasClass("btn-primary");
+                if (IsClicked) {
+                    $('.btn-age').removeClass("btn-primary");
+                    $('.btn-age').addClass("btn-default");
+                }
+                $(this).removeClass("btn-default");
+                $(this).addClass("btn-primary");
+                ageUnit = $(this).text();
+            })
+
+            //選定歲數單位
+            var unit ='@Model.AgeAndUnit'!=""?'@Model.AgeAndUnit.Substring(Model.AgeAndUnit.Length-1,1)':"";
+
+            switch(unit)
+            {
+                case"歲":
+                    $('#year').click();
+                    break;
+                case"月":
+                    $('#month').click();
+                    break;
+                case"周":
+                    $('#week').click();
+                    break;
+                case"日":
+                    $('#day').click();
+                    break;
+
+
+            }
+        })
+
+        //開放設定初始化
+        $(function () {
+            debugger;
+            var IsModelOpen= '@Model.IsOpen';
+            if(IsModelOpen!=""&&IsModelOpen=='True')
+            {
+                $('#IsOpen').attr("checked","checked");
+            }else
+            {
+                $('#IsOpen').attr("checked",false);
+            }
+
+        })
+
+        function AddInfo() {
+            var age = $('#Age').val();
+            if (ageUnit != "") {
+                if (age != ""){
+
+                    $("#AgeAndUnit").val(age + ageUnit)
+                }
+                else {
+                    swal('您選擇了年齡單位但是未輸入年齡'); return;
+                }
+            } else {
+                if (age != "") { swal('您輸入了年齡但未選擇年齡單位'); return; }
+            }
+
+            var IsOpenBool = $('#IsOpen').is(":checked");
+
+            
+
+            $('#UpdateIsOpen').val(IsOpenBool)
+
+
+            //驗證必填欄位
+            //Name
+            if ($('#Name').val() == "") {
+                swal("動物名稱是必須填的項目"); return;
+            }
+            //CityLocation
+            if ($('#CityLocation').val() == "") {
+                swal("動物所在縣市地區是必須填的項目"); return;
+            }
+            //CoverHeader
+            if ($('#CoverHeader').val() == "") {
+                swal("封面標題是必須填的項目"); return;
+            }
+            //CoverIntro
+            if ($('#CoverIntro').val() == "") {
+                swal("封面敘述是必須填的項目"); return;
+            }
+            if ($('#Contacter').val() == "") {
+                swal("聯絡人姓名是必須填的項目"); return;
+            }
+            if ($('#ContacterPhone').val() == "") {
+                swal("聯絡人電話是必須填的項目"); return;
+            }
+            if ($('#ContacterEmail').val() == "") {
+                swal("聯絡人email是必須填的項目"); return;
+            }
+
+
+            $("#ModifyAdoptInfoSend").submit();
+
+        }
+
+        $(function () {
+            $('#MyAnimals').addClass("active");
+        })
+    </script>
+}
+

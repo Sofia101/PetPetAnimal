@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<PetPetAnimal認養平台.Models.MemberViewAdoptList>
+ <!-- Page Content -->
+<div class="container">
+    <!-- Page Heading -->
+    <h1 class="my-4">
+        我的待認養動物們
+        <small>待認養清單</small>
+    </h1>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            @Html.HiddenFor(x=>item.AnimalID)
+            <div class="col-lg-4 col-md-6 col-sm-12  col-xs-12 portfolio-item">
+                <div class="card h-100">
+                    <a href="@Url.Action("ViewAdoptInfo", "Home", new { AnimalID=item.AnimalID})"  style="text-decoration:none">
+                        @if (item.Base64Photo != "")
+                        {
+                            <img class="card-img-top" src="data:image/@item.PhotoExt;base64,@item.Base64Photo" alt="" style="height:350px">
+                        }
+                        else
+                        {
+                            <img class="card-img-top" src="http://placehold.it/700x400" alt="" style="height:350px">
+                        }
+    <div class="card-body">
+        <h4 class="card-title">
+            @item.CoverHeader
+
+        </h4>
+        <p class="card-text" style="display: block; display: -webkit-box;height:68px; line-height: 1.4; -webkit-line-clamp: 3;-webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;
+    ">@item.CoverIntro</p>
+        <span class="lable-boder" style="margin:4px;display:inline-block">@item.CityLocation </span><br />
+        <span style="float:right;padding:8px;">發布日期:  @item.CreateDate.ToString("yyyy/MM/dd")</span>
+        @if (item.UpdateIsOpen == true)
+        {
+            <span class="badge badge-success" style="position:absolute;top:5px;right:5px">開放中</span>
+        }
+        else
+        {
+            <span class="badge badge-secondary" style="position:absolute;top:5px;right:5px">未開放</span>
+        }
+    </div>
+</a>
+
+                </div>
+            </div>
+        }
+
+    </div>
+    <!-- /.row -->
+    <!-- Pagination -->
+    <div class="pagination justify-content-center">
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+                  new { page }), PagedListRenderOptions.Classic)
+    </div>
+   
+</div>
+<!-- /.container -->
+@section scripts
+    {
+    <script>
+        $(function () {
+            $('#MyAnimals').addClass("active");
+        })
+    </script>
+    }
