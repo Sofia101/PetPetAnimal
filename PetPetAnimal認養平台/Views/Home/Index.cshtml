@@ -11,7 +11,15 @@
         我的待認養動物們
         <small>待認養清單</small>
     </h1>
+    <div style="padding-top:20px;padding-bottom:30px" class="text-right">
+    <label style="font-size:15px">搜尋: &nbsp;</label>
+        <span class="badge badge-light btn-badge" onclick="Sort(1)">全部</span>&nbsp;
+    <span class="badge badge-light btn-badge" onclick="Sort(2)">開放中</span>&nbsp;
+        <span class="badge badge-light btn-badge" onclick="Sort(3)">未開放</span>
+
+    </div>
     <div class="row">
+ 
         @foreach (var item in Model)
         {
             @Html.HiddenFor(x=>item.AnimalID)
@@ -66,5 +74,21 @@
         $(function () {
             $('#MyAnimals').addClass("active");
         })
+
+        function Sort(type)
+        {
+            switch (type)
+            {
+                case 1:
+                    window.location.href='@Url.Action("Index", "Home", new { sort=1})'
+                    break;
+                case 2:
+                    window.location.href = '@Url.Action("Index", "Home", new { sort=2})'
+                    break;
+                case 3:
+                    window.location.href = '@Url.Action("Index", "Home", new { sort=3})'
+                    break;
+            }
+        }
     </script>
     }

@@ -21,7 +21,7 @@ namespace PetPetAnimal認養平台.Controllers
         }
 
         //會員首頁
-        public ActionResult Index(int ?page)
+        public ActionResult Index(int ?page, int sort=1)
         {
           List<MemberViewAdoptList> model=  _Repo.MemberGetAdoptInfo();
           int currentPageIndex = page.HasValue ? page.Value - 1 : 1;
@@ -35,6 +35,18 @@ namespace PetPetAnimal認養平台.Controllers
               else { i.Base64Photo = ""; }
              
           }
+            //排序
+          if (sort == 2)
+          {
+              model = model.Where(x => x.UpdateIsOpen == true).ToList();
+          }
+          else if(sort==3)
+          {
+              model = model.Where(x => x.UpdateIsOpen == false).ToList();
+          }
+     
+
+            //分頁
           IPagedList<MemberViewAdoptList> returnModel=model.ToPagedList(currentPageIndex, 9);
           return View(returnModel);
         }
