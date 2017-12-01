@@ -41,12 +41,13 @@
                             <img class="card-img-top" src="@Url.Content("~/images/No_Image_Available.jpg")" alt="" style="height:350px">@*http://placehold.it/700x400*@
                         }
     <div class="card-body">
-        <h4 class="card-title">
+        <h4 class="card-title" style="display: block; display: -webkit-box; height: 62px; line-height: 1.4; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
             @item.CoverHeader
 
         </h4>
         <p class="card-text" style="display: block; display: -webkit-box;height:68px; line-height: 1.4; -webkit-line-clamp: 3;-webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;
-    ">@item.CoverIntro</p>
+    "><span class="badge badge-dark">@item.Name</span>&nbsp;@item.CoverIntro</p>
+       
         <span class="lable-boder" style="margin:4px;display:inline-block">@item.CityLocation </span><br />
         <span style="float:right;padding:8px;">發布日期:  @item.CreateDate.ToString("yyyy/MM/dd")</span>
         @if (item.UpdateIsOpen == true)
