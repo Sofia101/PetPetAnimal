@@ -18,7 +18,7 @@ namespace PetPetAnimal認養平台.Models
             this.ContacterEmail = item.ContacterEmail;
             this.ContacterPhone = item.ContacterPhone;
             this.CoverHeader = item.Header;
-            this.CoverIntro = item.Intro;
+            this.CoverIntro = item.ShortIntro;
             this.CoverPhotoByte = item.Photo;
             this.Gender = (GenderType)item.Gender.Value;
             this.Height = item.Height;

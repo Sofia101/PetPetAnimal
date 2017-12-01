@@ -55,13 +55,23 @@ namespace Service.Repository
         }
 
         //會員首頁取得動物清單
-        public List<MemberViewAdoptList> MemberGetAdoptInfo()
+        public List<MemberViewAdoptList> MemberGetAdoptInfo(string name)
         {
             List<MemberViewAdoptList> returnList = new List<MemberViewAdoptList>();
             try
             {
                 PetPetAnimalEntities _ctx = new PetPetAnimalEntities();
-                List<AnimalInfo> query= _ctx.AnimalInfo.ToList();
+
+                List<AnimalInfo> query = new List<AnimalInfo>();
+                if (!string.IsNullOrEmpty(name))
+                {
+                     query = _ctx.AnimalInfo.Where(x=>x.Name.Contains(name)).ToList();
+                }
+                else 
+                {
+                   query = _ctx.AnimalInfo.ToList();
+                }
+             
                 returnList = query.Select(x => new MemberViewAdoptList(x)).ToList();
             }
             catch (Exception ex)

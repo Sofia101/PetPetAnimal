@@ -234,6 +234,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\noimage.png" />
+    <Content Include="images\No_Image_Available.jpg" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />

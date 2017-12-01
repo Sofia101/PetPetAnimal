@@ -21,10 +21,12 @@ namespace PetPetAnimal認養平台.Controllers
         }
 
         //會員首頁
-        public ActionResult Index(int ?page, int sort=1)
+        public ActionResult Index(int ?page, int sort=1, string name ="")
         {
-          List<MemberViewAdoptList> model=  _Repo.MemberGetAdoptInfo();
-          int currentPageIndex = page.HasValue ? page.Value - 1 : 1;
+
+        
+          List<MemberViewAdoptList> model=  _Repo.MemberGetAdoptInfo(name);
+          int currentPageIndex = page.HasValue ? page.Value  : 1;
           foreach (var i in model)       
           {
               if (i.CoverPhotoByte != null)
@@ -44,7 +46,7 @@ namespace PetPetAnimal認養平台.Controllers
           {
               model = model.Where(x => x.UpdateIsOpen == false).ToList();
           }
-     
+  
 
             //分頁
           IPagedList<MemberViewAdoptList> returnModel=model.ToPagedList(currentPageIndex, 9);

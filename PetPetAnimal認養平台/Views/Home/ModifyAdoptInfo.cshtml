@@ -90,7 +90,7 @@
                                         }
                                         else
                                         {
-                                            <img src="http://placehold.it/700x400" class="img-responsive img-rounded" style="width:80%" />
+                                            <img src="@Url.Content("~/images/No_Image_Available.jpg")" class="img-responsive img-rounded" style="width:80%" />
                                         }
                                     </div>
                                 </div>
@@ -251,126 +251,143 @@
 }
 @section scripts{
     <script>
-        var ageUnit = "";
-        $(function () {
+    var ageUnit = "";
+    $(function () {
 
 
-            var message= '@ViewBag.Message';
-            if(message!=null&&message!="")
-            {
-                swal('@ViewBag.Message');
+        var message= '@ViewBag.Message';
+        if(message!=null&&message!="")
+        {
+            swal('@ViewBag.Message');
+        }
+
+
+
+    })
+
+
+    $(function () {
+
+        $('.btn-age').on("click", function () {
+            var IsClicked = $('.btn-age').hasClass("btn-primary");
+            if (IsClicked) {
+                $('.btn-age').removeClass("btn-primary");
+                $('.btn-age').addClass("btn-default");
             }
-
-
-
+            $(this).removeClass("btn-default");
+            $(this).addClass("btn-primary");
+            ageUnit = $(this).text();
         })
 
+        //選定歲數單位
+        var unit = '@Model.AgeAndUnit'; 
 
-        $(function () {
-
-            $('.btn-age').on("click", function () {
-                var IsClicked = $('.btn-age').hasClass("btn-primary");
-                if (IsClicked) {
-                    $('.btn-age').removeClass("btn-primary");
-                    $('.btn-age').addClass("btn-default");
+        if (unit != '' && '@Model.AgeAndUnit' != "")
+        {
+            @{
+                string unitstring="";
+                if (!string.IsNullOrEmpty(Model.AgeAndUnit)) 
+                {
+                unitstring= Model.AgeAndUnit.Substring(Model.AgeAndUnit.Length-1,1);
                 }
-                $(this).removeClass("btn-default");
-                $(this).addClass("btn-primary");
-                ageUnit = $(this).text();
-            })
-
-            //選定歲數單位
-            var unit ='@Model.AgeAndUnit'!=""?'@Model.AgeAndUnit.Substring(Model.AgeAndUnit.Length-1,1)':"";
-
-            switch(unit)
-            {
-                case"歲":
-                    $('#year').click();
-                    break;
-                case"月":
-                    $('#month').click();
-                    break;
-                case"周":
-                    $('#week').click();
-                    break;
-                case"日":
-                    $('#day').click();
-                    break;
-
-
             }
-        })
+      
+            unit = @unitstring;
 
-        //開放設定初始化
-        $(function () {
-            debugger;
-            var IsModelOpen= '@Model.IsOpen';
-            if(IsModelOpen!=""&&IsModelOpen=='True')
-            {
-                $('#IsOpen').attr("checked","checked");
-            }else
-            {
-                $('#IsOpen').attr("checked",false);
-            }
-
-        })
-
-        function AddInfo() {
-            var age = $('#Age').val();
-            if (ageUnit != "") {
-                if (age != ""){
-
-                    $("#AgeAndUnit").val(age + ageUnit)
-                }
-                else {
-                    swal('您選擇了年齡單位但是未輸入年齡'); return;
-                }
-            } else {
-                if (age != "") { swal('您輸入了年齡但未選擇年齡單位'); return; }
-            }
-
-            var IsOpenBool = $('#IsOpen').is(":checked");
-
-            
-
-            $('#UpdateIsOpen').val(IsOpenBool)
-
-
-            //驗證必填欄位
-            //Name
-            if ($('#Name').val() == "") {
-                swal("動物名稱是必須填的項目"); return;
-            }
-            //CityLocation
-            if ($('#CityLocation').val() == "") {
-                swal("動物所在縣市地區是必須填的項目"); return;
-            }
-            //CoverHeader
-            if ($('#CoverHeader').val() == "") {
-                swal("封面標題是必須填的項目"); return;
-            }
-            //CoverIntro
-            if ($('#CoverIntro').val() == "") {
-                swal("封面敘述是必須填的項目"); return;
-            }
-            if ($('#Contacter').val() == "") {
-                swal("聯絡人姓名是必須填的項目"); return;
-            }
-            if ($('#ContacterPhone').val() == "") {
-                swal("聯絡人電話是必須填的項目"); return;
-            }
-            if ($('#ContacterEmail').val() == "") {
-                swal("聯絡人email是必須填的項目"); return;
-            }
-
-
-            $("#ModifyAdoptInfoSend").submit();
 
         }
 
-        $(function () {
-            $('#MyAnimals').addClass("active");
-        })
+
+        switch(unit)
+        {
+            case"歲":
+                $('#year').click();
+                break;
+            case"月":
+                $('#month').click();
+                break;
+            case"周":
+                $('#week').click();
+                break;
+            case"日":
+                $('#day').click();
+                break;
+            default:
+                break;
+
+        }
+    })
+
+    //開放設定初始化
+    $(function () {
+
+        var IsModelOpen= '@Model.IsOpen';
+        if(IsModelOpen!=""&&IsModelOpen=='True')
+        {
+            $('#IsOpen').attr("checked","checked");
+        }else
+        {
+            $('#IsOpen').attr("checked",false);
+        }
+
+    })
+
+    function AddInfo() {
+        var age = $('#Age').val();
+        if (ageUnit != "") {
+            if (age != ""){
+
+                $("#AgeAndUnit").val(age + ageUnit)
+            }
+            else {
+                swal('您選擇了年齡單位但是未輸入年齡'); return;
+            }
+        } else {
+            if (age != "") { swal('您輸入了年齡但未選擇年齡單位'); return; }
+        }
+
+        var IsOpenBool = $('#IsOpen').is(":checked");
+
+
+
+        $('#UpdateIsOpen').val(IsOpenBool)
+
+
+        //驗證必填欄位
+        //Name
+        if ($('#Name').val() == "") {
+            swal("動物名稱是必須填的項目"); return;
+        }
+        //CityLocation
+        if ($('#CityLocation').val() == "") {
+            swal("動物所在縣市地區是必須填的項目"); return;
+        }
+        //CoverHeader
+        if ($('#CoverHeader').val() == "") {
+            swal("封面標題是必須填的項目"); return;
+        }
+        //CoverIntro
+        if ($('#CoverIntro').val() == "") {
+            swal("封面敘述是必須填的項目"); return;
+        }
+        if ($('#Contacter').val() == "") {
+            swal("聯絡人姓名是必須填的項目"); return;
+        }
+        if ($('#ContacterPhone').val() == "") {
+            swal("聯絡人電話是必須填的項目"); return;
+        }
+        if ($('#ContacterEmail').val() == "") {
+            swal("聯絡人email是必須填的項目"); return;
+        }
+
+
+        $("#ModifyAdoptInfoSend").submit();
+
+    }
+
+    $(function () {
+        $('#MyAnimals').addClass("active");
+    })
     </script>
 }
 
